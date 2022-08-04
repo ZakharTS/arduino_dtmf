@@ -6,7 +6,7 @@
 
 String get_message(int sensorPin, float sampling_rate, int adc_centre, float magnitude);
 
-void send_message(String dtmfMessage, int pttPin, int outputPin1, int outputPin2);
+void send_message(String dtmfMessage, int pttPin, int outputPin1, int outputPin2, int duration);
 
 void find_freqs(char dtmf, unsigned& freq1, unsigned& freq2);
 

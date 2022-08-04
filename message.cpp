@@ -7,6 +7,7 @@ const unsigned char dtmf_map[16] = { 0x11, 0x21, 0x41, 0x12, 0x22, 0x42, 0x14, 0
 const char dtmf_char[16] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', '*', '#' };
 
 String get_message(int sensorPin, float sampling_rate, int adc_centre, float magnitude) {
+    //float sampling_rate = 8926.0; int adc_centre = 506; float magnitude = 1800.;
     DTMF dtmf = DTMF(128.0, sampling_rate);
     float d_mags[8];
     unsigned time = millis();
@@ -20,9 +21,6 @@ String get_message(int sensorPin, float sampling_rate, int adc_centre, float mag
             time = millis();
         }
     }
-    if (message != "") {
-        Serial.println(message);
-    }
     return message;
 }
 
@@ -32,18 +30,19 @@ void send_message(String dtmfMessage, int pttPin, int outputPin1, int outputPin2
     Tone tone1, tone2;
     tone1.begin(outputPin1);
     tone2.begin(outputPin2);
-
+    Serial.println("Sending...");
+    Serial.println(dtmfMessage);
     for (int i = 0; i < dtmfMessage.length(); i++) {
         unsigned freq1, freq2;
-        find_freq(dtmfMessage[i], freq1, freq2);
+        find_freqs(dtmfMessage[i], freq1, freq2);
         tone1.play(freq1, duration);
         tone2.play(freq2, duration);
         delay(duration);
     }
 
     digitalWrite(pttPin, LOW);
-    tone1.end();
-    tone2.end();
+    tone1.stop();
+    tone2.stop();
     delay(2000);
 }
 
