@@ -4,9 +4,9 @@
 #include "DTMF.h"
 #include "Tone.h"
 
-String get_message(int sensorPin, float sampling_rate, int adc_centre, float magnitude);
+String get_message(short sensorPin, float sampling_rate, short adc_centre, float magnitude);
 
-void send_message(String dtmfMessage, int pttPin, int outputPin1, int outputPin2, int duration);
+void send_message(String dtmfMessage, short pttPin, short outputPin1, short outputPin2, short duration);
 
 void find_freqs(char dtmf, unsigned& freq1, unsigned& freq2);
 

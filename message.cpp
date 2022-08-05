@@ -6,7 +6,7 @@ const unsigned char dtmf_map[16] = { 0x11, 0x21, 0x41, 0x12, 0x22, 0x42, 0x14, 0
 
 const char dtmf_char[16] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', '*', '#' };
 
-String get_message(int sensorPin, float sampling_rate, int adc_centre, float magnitude) {
+String get_message(short sensorPin, float sampling_rate, short adc_centre, float magnitude) {
     //float sampling_rate = 8926.0; int adc_centre = 506; float magnitude = 1800.;
     DTMF dtmf = DTMF(128.0, sampling_rate);
     float d_mags[8];
@@ -24,7 +24,8 @@ String get_message(int sensorPin, float sampling_rate, int adc_centre, float mag
     return message;
 }
 
-void send_message(String dtmfMessage, int pttPin, int outputPin1, int outputPin2, int duration) {
+void send_message(String dtmfMessage, short pttPin, short outputPin1, short outputPin2, short duration) {
+    pinMode(pttPin, OUTPUT);
     digitalWrite(pttPin, HIGH);
     delay(500);
     Tone tone1, tone2;
@@ -37,7 +38,7 @@ void send_message(String dtmfMessage, int pttPin, int outputPin1, int outputPin2
         find_freqs(dtmfMessage[i], freq1, freq2);
         tone1.play(freq1, duration);
         tone2.play(freq2, duration);
-        delay(duration);
+        delay(duration * 2);
     }
 
     digitalWrite(pttPin, LOW);
